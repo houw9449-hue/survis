@@ -7,6 +7,18 @@ var bib = (function () {
     var nParsedEntries = 0;
     var stopwords = [];
 
+    // 新增属性
+    var filteredEntries = {};
+    var entrySelectorSimilarities = {};
+    var sortedIDs = [];
+    var entryDivs = {};            
+    var references = {};
+    var availablePdf = [];
+    var availableImg = [];
+    var keywordFrequencies = {};
+    var tagCategories = {};
+    var authorizedTags = {};
+
     return {
 
         entries: entries,
@@ -15,9 +27,17 @@ var bib = (function () {
         nEntries: nEntries,
         nParsedEntries: nParsedEntries,
         stopwords: stopwords,
-        filteredEntries: {},
-        entrySelectorSimilarities: {},
-        sortedIDs: [],
+
+        filteredEntries: filteredEntries,
+        entrySelectorSimilarities: entrySelectorSimilarities,
+        sortedIDs: sortedIDs,
+        entryDivs: entryDivs,
+        references: references,
+        availablePdf: availablePdf,
+        availableImg: availableImg,
+        keywordFrequencies: keywordFrequencies,
+        tagCategories: tagCategories,
+        authorizedTags: authorizedTags,
 
         load: function () {
             bib.entries = generatedBibEntries;
