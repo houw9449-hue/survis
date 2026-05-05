@@ -1,5 +1,35 @@
-const userDefinedAuthorizedTags = {
-	"type:system": {
-		"description": "paper describing a system"
-	}
-}
+var authorizedTags = {
+    "deep_learning": {"description": "Methods based on deep neural networks"},
+    "classification": {"description": "Classification tasks"},
+    "breast_cancer": {"description": "Breast cancer related research"},
+    "CNN": {"description": "Convolutional Neural Networks"},
+    "transformer": {"description": "Transformer-based architectures"},
+    "self_supervised_learning": {"description": "Self-supervised learning methods"},
+    "histopathology": {"description": "Histopathological image analysis"},
+    "whole_slide_image": {"description": "Whole slide image processing"},
+    "data_augmentation": {"description": "Data augmentation techniques"},
+    "GAN": {"description": "Generative Adversarial Networks"},
+    "class_imbalance": {"description": "Handling class imbalance"},
+    "medical_imaging": {"description": "Medical image analysis"},
+    "DenseNet": {"description": "DenseNet architecture"},
+    "attention": {"description": "Attention mechanisms"},
+    "multiple_instance_learning": {"description": "Multiple instance learning"},
+    "interpretability": {"description": "Model interpretability"},
+    "oversampling": {"description": "Oversampling techniques"},
+    "survey": {"description": "Survey papers"},
+    "federated_learning": {"description": "Federated learning"},
+    "split_learning": {"description": "Split learning"},
+    "privacy": {"description": "Privacy-preserving methods"},
+    "distributed_learning": {"description": "Distributed learning"},
+    "FedAvg": {"description": "Federated Averaging algorithm"},
+    "digital_health": {"description": "Digital health applications"},
+    "transfer_learning": {"description": "Transfer learning"},
+    "fine_tuning": {"description": "Fine-tuning pretrained models"},
+    "EfficientNet": {"description": "EfficientNet architecture"},
+    "model_scaling": {"description": "Model scaling strategies"},
+    "dataset": {"description": "Dataset contributions"},
+    "BreakHis": {"description": "BreakHis breast cancer dataset"},
+    "computational_pathology": {"description": "Computational pathology"},
+    "Grad_CAM": {"description": "Gradient-weighted Class Activation Mapping"},
+    "visualization": {"description": "Visualization methods"}
+};
