@@ -4,18 +4,13 @@ const tags = (function () {
 
     return {
 
-        /**
-         * Updates all tag clouds
-         */
         updateTagClouds: function () {
             bib.keywordFrequencies = {};
             $('#tag_clouds').find('.tags-container').empty();
             $.each(tagCloudOptions, function () {
                 updateTagCloud(this);
             });
-        }
-
-    };
+        }};
 
     function updateTagCloud(options) {
         parseEntries(options);
@@ -68,8 +63,7 @@ const tags = (function () {
                         var tagDiv = createTag(tag, options, frequency, tagFrequencySelector);
                         if (tagDiv) {
                             tagDivsCategory.push(tagDiv);
-                        }
-                        usedCategoryTags.push(tagID);
+                        }usedCategoryTags.push(tagID);
                     }
                 });
                 appendTagDivs(categoryName, category['description'], tagDivsCategory, containerDiv);
@@ -101,8 +95,7 @@ const tags = (function () {
                 bib.parsedEntries[id] = {};
             }
             if (options.field === 'warning') {
-                bib.parsedEntries[id][options.field] = [];
-                if (bib.warnings[id]) {
+                bib.parsedEntries[id][options.field] = [];if (bib.warnings[id]) {
                     $.each(bib.warnings[id], function (i, warning) {
                         var warningType = warning['type'] ? warning['type'] : warning;
                         bib.parsedEntries[id][options.field].push(warningType);
@@ -148,7 +141,7 @@ const tags = (function () {
         tagDiv.click(function (event) {
             selectors.toggleSelector(options.field, getTagID(tag, options.field), event);
         });
-        if (bib.authorizedTags[tag] || options.field != 'keywords') {
+        if ((bib.authorizedTags && bib.authorizedTags[tag]) || options.field != 'keywords') {
             tagDiv.addClass('authorized');
         }
         tagDiv.mouseover(function () {
@@ -156,8 +149,8 @@ const tags = (function () {
                 var tooltipDiv = $('<div>');
                 $('<h3><span class="label">' + options.field + ': </span>' + latexUtil.latexToHtml(tag) + '</h3>').appendTo(tooltipDiv);
                 $('<div><span class="label"># publications: </span>' + frequency + '</div>').appendTo(tooltipDiv);
-                if (bib.authorizedTags[tag] || options.field != 'keywords') {
-                    if (bib.authorizedTags[tag]) {
+                if ((bib.authorizedTags && bib.authorizedTags[tag]) || options.field != 'keywords') {
+                    if (bib.authorizedTags && bib.authorizedTags[tag]) {
                         $('<div><span class="label">description: </span>' + bib.authorizedTags[tag]['description'] + '</div>').appendTo(tooltipDiv);
                     }
                 }
@@ -182,7 +175,6 @@ const tags = (function () {
     }
 
     function appendTagDivs(name, title, tagDivs, element) {
-
         tagDivs = tagDivs.sort(function (a, b) {
             var nA = parseInt(a.attr('value'));
             var nB = parseInt(b.attr('value'));
@@ -191,7 +183,6 @@ const tags = (function () {
             else if (nA > nB)
                 return -1;
             else {
-                // return 0;
                 return a.children()[1].innerText.localeCompare(b.children()[1].innerText);
             }
         });
@@ -229,8 +220,7 @@ const tags = (function () {
             tagCloudDiv = $('<div>', {
                 class: 'tag_cloud',
                 id: id
-            });
-            $('#tag_clouds').append(tagCloudDiv);
+            });$('#tag_clouds').append(tagCloudDiv);
         }
         tagCloudDiv.empty();
         var tagOccurrenceDiv = $('<div>', {
@@ -252,7 +242,7 @@ const tags = (function () {
             }
         });
         if (options.minTagFrequency < 1) {
-            options.minTagFrequency = 1
+            options.minTagFrequency = 1;
         }
         frequencySpan.appendTo(tagOccurrenceDiv);
         var buttonInc = $('<div>', {
@@ -264,28 +254,23 @@ const tags = (function () {
             frequencySpan.text(options.minTagFrequency);
             page.updateTags();
         });
-
         var tagCloudFilterForm = $('<form>', {
             class: 'tag_cloud_filter toggle-container'
         }).appendTo(tagCloudDiv);
         var tagCloudFilterInput = $('<input type="search" placeholder="filter ..."/>').appendTo(tagCloudFilterForm);
-
         tagCloudFilterInput.on('input', function () {
             filterTags(tagCloudDiv);
         });
         tagCloudFilterForm.submit(function () {
             return false;
         });
-
         var h2Div = $('<h2><span class="symbol">/</span>' + options.title + '</h2>').appendTo(tagCloudDiv);
         h2Div.click(function () {
             uiUtil.toggleControl(h2Div);
         });
-
         tagCloudDiv.append($('<div>', {
             class: 'tags-container toggle-container'
         }));
-
         return tagCloudDiv;
     }
 
@@ -299,12 +284,9 @@ const tags = (function () {
             } else {
                 tagDiv.show();
             }
-        })
+        });
     }
 
-    /**
-     * Transforms a tag into an ID
-     */
     function getTagID(tag, field) {
         if (field === 'keywords' || field === 'warning') {
             return tag;
@@ -314,9 +296,6 @@ const tags = (function () {
         return tagID;
     }
 
-    /**
-     * Looks up the tag for a tag ID
-     */
     function getTag(tagID, field) {
         if (field === 'keywords' || field === 'warning') {
             return tagID;
@@ -325,6 +304,3 @@ const tags = (function () {
     }
 
 })();
-
-
-
