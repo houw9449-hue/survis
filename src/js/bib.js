@@ -1,357 +1,162 @@
-const bib = (function () {
-
-    var entries = readBibtex();
-    if (!entries || Object.keys(entries).length === 0) {
-        if (!electron) {
-            entries = generatedBibEntries;
-        } else {
-            console.error('Could not load bibliography: unknown reason. Please check if file is UTF8 encoded.');
-        }
+const generatedBibEntries = {
+    "araujo2017classification": {
+        "author": "Araújo, Teresa and Aresta, Guilherme and Castro, Eduardo and Rouco, José and Aguiar, Paulo and Eloy, Catarina and Polónia, António and Campilho, Aurélio",
+        "doi": "10.1371/journal.pone.0177544",
+        "journal": "PLOS ONE",
+        "keywords": "deep_learning, classification, breast_cancer, CNN",
+        "number": "6",
+        "pages": "e0177544",
+        "title": "Classification of breast cancer histology images using convolutional neural networks",
+        "type": "article",
+        "volume": "12",
+        "year": "2017"
+    },
+    "chen2022scaling": {
+        "author": "Chen, Richard J. and Chen, Chengkuan and Li, Yang and Chen, Tiffany Y. and Trister, Andrew D. and Krishnan, Rahul G. and Mahmood, Faisal",
+        "booktitle": "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+        "doi": "10.1109/CVPR52688.2022.01567",
+        "keywords": "transformer, self_supervised_learning, histopathology, whole_slide_image",
+        "pages": "9184--9195",
+        "title": "Scaling vision transformers to gigapixel images via hierarchical self-supervised learning",
+        "type": "inproceedings",
+        "year": "2022"
+    },
+    "fridadar2018gan": {
+        "author": "Frid-Adar, Maayan and Diamant, Idit and Klang, Eyal and Amitai, Michal and Goldberger, Jacob and Greenspan, Hayit",
+        "doi": "10.1016/j.neucom.2018.09.013",
+        "journal": "Neurocomputing",
+        "keywords": "data_augmentation, GAN, class_imbalance, medical_imaging",
+        "pages": "321--331",
+        "title": "GAN-based synthetic medical image augmentation for increased CNN performance in liver lesion classification",
+        "type": "article",
+        "volume": "321",
+        "year": "2018"
+    },
+    "huang2017densely": {
+        "author": "Huang, Gao and Liu, Zhuang and Van Der Maaten, Laurens and Weinberger, Kilian Q.",
+        "booktitle": "Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)",
+        "doi": "10.1109/CVPR.2017.243",
+        "keywords": "deep_learning, DenseNet, CNN, classification",
+        "pages": "4700--4708",
+        "title": "Densely connected convolutional networks",
+        "type": "inproceedings",
+        "year": "2017"
+    },
+    "ilse2018attention": {
+        "author": "Ilse, Maximilian and Tomczak, Jakub M. and Welling, Max",
+        "booktitle": "Proceedings of the 35th International Conference on Machine Learning (ICML)",
+        "doi": "10.48550/arXiv.1802.04712",
+        "keywords": "attention, multiple_instance_learning, interpretability, histopathology",
+        "title": "Attention-based deep multiple instance learning",
+        "type": "inproceedings",
+        "year": "2018"
+    },
+    "johnson2019survey": {
+        "author": "Johnson, Justin M. and Khoshgoftaar, Taghi M.",
+        "doi": "10.1186/s40537-019-0192-5",
+        "journal": "Journal of Big Data",
+        "keywords": "class_imbalance, deep_learning, oversampling, survey",
+        "number": "1",
+        "pages": "27",
+        "title": "Survey on deep learning with class imbalance",
+        "type": "article",
+        "volume": "6",
+        "year": "2019"
+    },
+    "li2025enhancing": {
+        "author": "Li, Xingwang and Lin, Qiang and Khan, Fawad and Kumari, Saru and Alenazi, Mohammed J. F. and Yang, Jian",
+        "doi": "10.1109/TCE.2025.3545963",
+        "journal": "IEEE Transactions on Consumer Electronics",
+        "keywords": "federated_learning, split_learning, breast_cancer, deep_learning, BreakHis",
+        "number": "2",
+        "pages": "6673--6685",
+        "title": "Enhancing cancer detection capabilities in medical consumer electronics through split federated learning and deep learning optimization",
+        "type": "article",
+        "volume": "71",
+        "year": "2025"
+    },
+    "mcmahan2017communication": {
+        "author": "McMahan, Brendan and Moore, Eider and Ramage, Daniel and Hampson, Seth and y Arcas, Blaise Agüera",
+        "booktitle": "Proceedings of the 20th International Conference on Artificial Intelligence and Statistics (AISTATS)",
+        "doi": "10.48550/arXiv.1602.05629",
+        "keywords": "federated_learning, FedAvg, distributed_learning, privacy",
+        "title": "Communication-efficient learning of deep networks from decentralized data",
+        "type": "inproceedings",
+        "year": "2017"
+    },
+    "rieke2020future": {
+        "author": "Rieke, Nicola and Hancox, Jonny and Li, Wenqi and Milletari, Fausto and Roth, Holger R. and Albarqouni, Shadi and Bakas, Spyridon and Galtier, Mathieu N. and Landman, Bennett A. and Maier-Hein, Klaus and Ourselin, Sebastien and Sheller, Micah and Summers, Ronald M. and Trask, Andrew and Xu, Daguang and Baust, Maximilian and Cardoso, M. Jorge",
+        "doi": "10.1038/s41746-020-00323-1",
+        "journal": "NPJ Digital Medicine",
+        "keywords": "federated_learning, digital_health, privacy, medical_imaging",
+        "number": "1",
+        "pages": "119",
+        "title": "The future of digital health with federated learning",
+        "type": "article",
+        "volume": "3",
+        "year": "2020"
+    },
+    "selvaraju2017gradcam": {
+        "author": "Selvaraju, Ramprasaath R. and Cogswell, Michael and Das, Abhishek and Vedantam, Ramakrishna and Parikh, Devi and Batra, Dhruv",
+        "booktitle": "Proceedings of the IEEE International Conference on Computer Vision (ICCV)",
+        "doi": "10.1109/ICCV.2017.74",
+        "keywords": "interpretability, Grad_CAM, visualization, deep_learning",
+        "pages": "618--626",
+        "title": "Grad-CAM: Visual explanations from deep networks via gradient-based localization",
+        "type": "inproceedings",
+        "year": "2017"
+    },
+    "spanhol2016dataset": {
+        "author": "Spanhol, Fabio A. and Oliveira, Luiz S. and Petitjean, Caroline and Heutte, Laurent",
+        "doi": "10.1109/TBME.2015.2496264",
+        "journal": "IEEE Transactions on Biomedical Engineering",
+        "keywords": "breast_cancer, dataset, BreakHis, histopathology, classification",
+        "number": "7",
+        "pages": "1455--1462",
+        "title": "A dataset for breast cancer histopathological image classification",
+        "type": "article",
+        "volume": "63",
+        "year": "2016"
+    },
+    "srinidhi2021deep": {
+        "author": "Srinidhi, Ciga Lavanya and Ciga, Ozan and Martel, Anne L.",
+        "doi": "10.1016/j.media.2020.101813",
+        "journal": "Medical Image Analysis",
+        "keywords": "survey, histopathology, deep_learning, computational_pathology",
+        "pages": "101813",
+        "title": "Deep neural network models for computational histopathology: A survey",
+        "type": "article",
+        "volume": "67",
+        "year": "2021"
+    },
+    "tajbakhsh2016convolutional": {
+        "author": "Tajbakhsh, Nima and Shin, Jae Y. and Gurudu, Suryakanth R. and Hurst, R. Todd and Kendall, Christopher B. and Gotway, Michael B. and Liang, Jianming",
+        "doi": "10.1109/TMI.2016.2535302",
+        "journal": "IEEE Transactions on Medical Imaging",
+        "keywords": "transfer_learning, fine_tuning, CNN, medical_imaging",
+        "number": "5",
+        "pages": "1299--1312",
+        "title": "Convolutional neural networks for medical image analysis: Full training or fine tuning?",
+        "type": "article",
+        "volume": "35",
+        "year": "2016"
+    },
+    "tan2019efficientnet": {
+        "author": "Tan, Mingxing and Le, Quoc V.",
+        "booktitle": "Proceedings of the 36th International Conference on Machine Learning (ICML)",
+        "doi": "10.48550/arXiv.1905.11946",
+        "keywords": "EfficientNet, model_scaling, CNN, classification",
+        "title": "EfficientNet: Rethinking model scaling for convolutional neural networks",
+        "type": "inproceedings",
+        "year": "2019"
+    },
+    "vepakomma2018split": {
+        "author": "Vepakomma, Praneeth and Gupta, Otkrist and Swedish, Tristan and Raskar, Ramesh",
+        "doi": "10.48550/arXiv.1812.00564",
+        "journal": "arXiv preprint arXiv:1812.00564",
+        "keywords": "split_learning, federated_learning, privacy, medical_imaging",
+        "title": "Split learning for health: Distributed deep learning without sharing raw patient data",
+        "type": "article",
+        "year": "2018"
     }
-
-    return {
-        entries: entries,
-        availablePdf: electron ? [] : availablePdf,
-        availableImg: electron ? [] : availableImg,
-        stopwords: userDefinedStopwords,
-        tagCategories: electron ? generateTagCategoriesFromKeywords(entries) : userDefinedTagCategories,
-        authorizedTags: userDefinedAuthorizedTags,
-        entryDivs: {},
-        warnings: warnings.computeAllWarnings(entries),
-        nVisibleEntries: 20,
-
-        downloadBibtex: function () {
-            var blob = new Blob([this.createAllBibtex(true)]);
-            window.saveAs(blob, 'references.bib');
-        },
-
-        createBibtex: function (id, entry) {
-            var bibtex = '@' + entry['type'] + '{' + id;
-            for (var fieldName in entry) {
-                if (fieldName == 'type' || isFieldForbidden(fieldName)) {
-                    continue;
-                }
-                if (entry.hasOwnProperty(fieldName)) {
-                    bibtex += ",\n  " + fieldName + " = {" + entry[fieldName] + "}";
-                }
-            }
-            if (typeof mandatoryFields != 'undefined' && mandatoryFields) {
-                for (var i in mandatoryFields[entry["type"]]) {
-                    if (!entry.hasOwnProperty(mandatoryFields[entry["type"]][i])) {
-                        bibtex += ",\n  " + mandatoryFields[entry["type"]][i] + " = {}";
-                    }
-                }
-            }
-            return bibtex + "\n}";
-        },
-
-        createCitation: function (id) {
-            var bib = this;
-            var citation = '';
-            if (bib.parsedEntries[id]['author']) {
-                $.each(bib.parsedEntries[id]['author'], function (i, author) {
-                    var authorSplit = author.split(', ');
-                    if (authorSplit.length == 2) {
-                        author = authorSplit[0] + ', ' + authorSplit[1].replace(/[^a-z -]/gi, '').replace(/\B\w*/g, '.').replace(/([A-Z])($|([ -]))/g, '$1.$3');
-                    }
-                    if (i == bib.parsedEntries[id]['author'].length - 1 && i > 0) {
-                        citation += 'and ';
-                    }
-                    citation += latexUtil.latexToHtml(author);
-                    if (bib.parsedEntries[id]['author'].length > 2 || i > 0) {
-                        citation += ', ';
-                    } else {
-                        citation += ' ';
-                    }
-                });
-            }
-            var year = bib.entries[id]['year'];
-            if (year) {
-                citation += year + '. ';
-            }
-            if (title = bib.entries[id]['title']) {
-                citation += latexUtil.latexToHtml(title) + '. ';
-            }
-            var journal = bib.entries[id]['journal'];
-            var pages = bib.entries[id]['pages'];
-            if (journal) {
-                citation += 'In <i>' + latexUtil.latexToHtml(journal) + '</i>';
-                var volume = bib.entries[id]['volume'];
-                if (volume) {
-                    citation += ' (Vol. ' + latexUtil.latexToHtml(volume);
-                    var number = bib.entries[id]['number'];
-                    if (number) {
-                        citation += ', No. ' + latexUtil.latexToHtml(number);
-                    }
-                    if (pages) {
-                        citation += ', pp. ' + latexUtil.latexToHtml(pages);
-                    }
-                    citation += ')';
-                }
-                citation += '. ';
-            }
-            var booktitle = bib.entries[id]['booktitle'];
-            if (booktitle) {
-                citation += 'In <i>' + latexUtil.latexToHtml(booktitle) + '</i>';
-                if (pages) {
-                    citation += ' (pp. ' + latexUtil.latexToHtml(pages) + ')';
-                }
-                citation += '. ';
-            }
-            var doi = bib.entries[id]['doi'];
-            var url = bib.entries[id]['url'];
-            if (doi) {
-                citation += 'DOI: <a href="http://dx.doi.org/' + doi + '">' + doi + '</a>. ';
-            } else if (url) {
-                citation += 'URL: <a href="' + url + '">' + url + '</a>. ';
-            }
-            return citation.trim();
-        },
-
-        createAllBibtex: function (filtered) {
-            var bib = this;
-            var bibtexString = '';
-            const selectedEntries = filtered ? bib.filteredEntries : bib.entries;
-            $.each(selectedEntries, function (id, entry) {
-                var currentBibtex = "";
-                if (bib.entryDivs[id]) {
-                    bib.entryDivs[id].find(".CodeMirror-code").children().each(function () {
-                        currentBibtex += $(this).text() + "\n";
-                    });
-                }
-                if (!currentBibtex) {
-                    currentBibtex = bib.createBibtex(id, entry);
-                }
-                bibtexString += currentBibtex;
-                bibtexString += "\n\n";
-            });
-            return bibtexString;
-        },
-
-        saveBibToFile: function () {
-            require('electron').remote.getGlobal('sharedObject').bibData = this.createAllBibtex(false);
-            const ipc = require('electron').ipcRenderer;
-            ipc.send('saveFile');
-            page.notify('File saved.');
-        },
-
-        saveBibToLocalStorage: function () {
-            if (editable) {
-                localStorage.bibtexString = this.createAllBibtex(false);
-            }
-        },
-
-        addEntries: function () {
-            var bib = this;
-            var addEntriesDiv = $('<div>', {
-                id: 'add_entries',
-                title: 'Add entries',
-                text: 'Paste one or more BibTeX entries:'
-            }).appendTo($('body'));
-            var bibtexEditor = CodeMirror(addEntriesDiv.get(0), {
-                lineWrapping: true
-            });
-            var bibtexStatusDiv = $('<div>', {
-                class: 'bibtex_status'
-            }).appendTo(addEntriesDiv);
-            bibtexEditor.on('change', function (bibtexEditor) {
-                bibtexStatusDiv.empty();
-                var addButton = $('.add_entry_button');
-                var addButtonTextDiv = addButton.find('.ui-button-text');
-                try {
-                    var bibtexText = bibtexEditor.getValue();
-                    var bibtexEntries = bib.parse(bibtexText);
-                    var nEntries = Object.keys(bibtexEntries).length;
-                    if (nEntries > 0) {
-                        addButtonTextDiv.text(
-                            'add (' + nEntries + (nEntries > 1 ? ' entries)' : ' entry)')
-                        );
-                        addButton.button('enable');
-                    } else {
-                        addButtonTextDiv.text('add');
-                        addButton.button('disable');
-                    }
-                }
-                catch (err) {
-                    $('<div>', {
-                        text: err,
-                        class: 'error'
-                    }).appendTo(bibtexStatusDiv);
-                    addButton.button('disable');
-                }
-            });
-            addEntriesDiv.dialog({
-                minWidth: 832,
-                modal: true,
-                buttons: {
-                    'Add': {
-                        text: 'add',
-                        class: 'add_entry_button',
-                        disabled: true,
-                        click: function () {
-                            var bibtexText = bibtexEditor.getValue();
-                            addEntriesDiv.dialog('close');
-                            if (bibtexText != null) {
-                                var bibtexEntries = bib.parse(bibtexText);
-                                for (var entryKey in bibtexEntries) {
-                                    var bibtexEntry = bibtexEntries[entryKey];
-                                    if (bib.entries[entryKey]) {
-                                        page.notify('Entry with ID "' + entryKey + '" already exists and cannot be added to the database.');
-                                    } else {
-                                        bib.entries[entryKey] = {};
-                                        for (var key in bibtexEntry) {
-                                            var keyLower = key.toLowerCase();
-                                            bib.entries[entryKey][keyLower] = bibtexEntry[key];
-                                        }
-                                        var mandatoryFields = ['author', 'year', 'title'];
-                                        $.each(mandatoryFields, function (i, field) {
-                                            if (!bib.entries[entryKey][field]) {
-                                                bib.entries[entryKey][field] = '';
-                                            }
-                                        });
-                                        bib.warnings[entryKey] = warnings.computeWarnings(bib.entries[entryKey]);
-                                    }
-                                }
-                            }
-                            if (Object.keys(bibtexEntries).length == 1) {
-                                selectors.toggleSelector('search', Object.keys(bibtexEntries)[0]);
-                            }
-                            update();
-                        }
-                    },
-                    cancel: function () {
-                        $(this).dialog("close");
-                    }
-                }
-            });
-            bibtexEditor.focus();
-        },
-
-        parse: function (bibtexText) {
-            var bibParser = new BibtexParser();
-            bibParser.setInput(bibtexText);
-            bibParser.bibtex();
-            return bibParser.getEntries();
-        },
-
-        renameKeyword: function () {
-            var bib = this;
-            const renameDiv = $('<div>', {
-                id: 'rename',
-                title: "Rename keyword"
-            });
-            $(`<div>Please enter the keyword that should be renamed, followed by "->" and one or 
-                    more comma-separated new names of the keyword.'</div>`)
-                .appendTo(renameDiv);
-            const renameForm = $(` 
-                        <form id="rename_form">
-                            <input type="text" id="rename_query" value="keyword_old->keyword_new, keyword_new2">
-                            <input type="submit" value="rename">
-                        </form>`)
-                .appendTo(renameDiv);
-            renameForm.submit(function (event) {
-                event.preventDefault();
-                const renameQuery = $('#rename_query').val();
-                console.log(renameQuery);
-                if (renameQuery.indexOf("->") < 0) {
-                    page.notify('Wrong format of rename query: please use "->" ' +
-                        'to separate the old from the new name of the keyword.', 'error');
-                    return;
-                }
-                var keywords = $.map(renameQuery.split('->'), $.trim);
-                if (!keywords[0]) {
-                    page.notify('Wrong format of rename query: please specify the keyword you want to rename.', 'error');
-                    return;
-                }
-                if (!keywords[1]) {
-                    page.notify('Wrong format of rename query: please specify the new name of the keyword.', 'error');
-                    return;
-                }
-                var newKeywords = $.map(keywords[1].split(','), $.trim);
-                var renameCount = 0;
-                $.each(bib.filteredEntries, function (id, entry) {
-                    var keywordPos = $.inArray(keywords[0], bib.parsedEntries[id]['keywords']);
-                    if (keywordPos >= 0) {
-                        renameCount++;
-                        var keywordList = [].concat(newKeywords);
-                        var keywordListParsed = [].concat(newKeywords);
-                        $.each(bib.parsedEntries[id]['keywords'], function (i, keyword) {
-                            if (!(keyword === keywords[0]) && $.inArray(keyword, newKeywords) < 0) {
-                                keywordListParsed.push(keyword);
-                                if (keyword.indexOf('?') < 0) {
-                                    keywordList.push(keyword);
-                                }
-                            }
-                        });
-                        bib.entries[id]['keywords'] = keywordList.join(', ');
-                        bib.parsedEntries[id]['keywords'] = keywordListParsed;
-                    }
-                });
-                page.update(false);
-                page.notify('Renamed keywords of ' + renameCount + ' entries. ');
-            });
-            renameDiv.dialog({
-                minWidth: 832,
-                modal: true
-            });
-        }
-    };
-
-    function readBibtex() {
-        var bibParser = new BibtexParser();
-        if (electron) {
-            try {
-                bibParser.setInput(require('electron').remote.getGlobal('sharedObject').bibData);
-                bibParser.bibtex();
-                return bibParser.getEntries();
-            } catch (err) {
-                console.error(err);
-                alert('Could not load bibliography: \n\n' + err);
-            }
-            return null;
-        } else {
-            var loadFromLocalStorage = browserUtil.getUrlParameter('loadFromLocalStorage') === 'true';
-            if (editable && loadFromLocalStorage && localStorage.bibtexString) {
-                try {
-                    bibParser.setInput(localStorage.bibtexString);
-                    bibParser.bibtex();
-                    return bibParser.getEntries();
-                } catch (err) {
-                    console.error(err);
-                    console.log(localStorage.bibtexString);
-                    alert('Could not load bibliography from local storage, loaded default instead (see console for details and locally stored bibliography): \n\n' + err.substring(0, 200));
-                }
-                return null;
-            }
-        }
-    }
-
-    function generateTagCategoriesFromKeywords(entries) {
-        const tagCategories = {};
-        Object.keys(entries).forEach(id => {
-            bibUtil.parseField(entries[id].keywords, 'keywords', tagCategories).forEach(keyword => {
-                if (keyword.indexOf(':') > 0) {
-                    const category = keyword.split(':')[0];
-                    if (!tagCategories[category]) {
-                        tagCategories[category] = {};
-                    }
-                }
-            });
-        });
-        return tagCategories;
-    }
-
-    function isFieldForbidden(fieldName) {
-        const forbiddenFields = []; //['referencedby', 'titlesafe', 'references'];
-        if (typeof forbiddenFields === 'undefined' || !forbiddenFields) {
-            return false;
-        }
-        for (var i in forbiddenFields) {
-            if (fieldName.indexOf(forbiddenFields[i]) == 0) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-})();
+};
