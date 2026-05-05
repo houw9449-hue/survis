@@ -1,4 +1,4 @@
-const generatedBibEntries = {
+var generatedBibEntries = {
     "araujo2017classification": {
         "author": "Araújo, Teresa and Aresta, Guilherme and Castro, Eduardo and Rouco, José and Aguiar, Paulo and Eloy, Catarina and Polónia, António and Campilho, Aurélio",
         "doi": "10.1371/journal.pone.0177544",
